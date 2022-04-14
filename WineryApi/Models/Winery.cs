@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace WineryApi.Models
@@ -11,7 +7,8 @@ namespace WineryApi.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public ObjectId Id { get; set; }
+        public string Id { get; set; }
+        //if the name was different on the json for example winery_name can use [BsonElement("winery_name")]
         public string Name { get; set; }
         public string Url { get; set; }
         public string Phone { get; set; }
