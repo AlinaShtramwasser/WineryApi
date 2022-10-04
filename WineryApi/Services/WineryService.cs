@@ -49,7 +49,7 @@ namespace WineryApi.Services
         {
             try
             {
-                var result = _wineries.ReplaceOne(book => book.Id == id, wineryIn);
+                var result = _wineries.ReplaceOne(winery => winery.Id == id, wineryIn);
                 return result.ModifiedCount > 0;
             }
             catch
@@ -58,6 +58,20 @@ namespace WineryApi.Services
             }
         }
 
+
+        public bool UpdateRating(string id, int rating)
+        {
+            try
+            {
+                var update = Builders<Winery>.Update.Set("Rating", rating);
+                var result = _wineries.UpdateOne(winery => winery.Id == id, update);
+                return result.ModifiedCount > 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         //if I need to pass a winery - not doing this for now
         //public void Remove(Winery wineryIn) =>

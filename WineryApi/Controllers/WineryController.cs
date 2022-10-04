@@ -62,6 +62,20 @@ namespace WineryApi.Controllers
             return new JsonResult(result);
         }
 
+
+        [HttpPut("rating/{id:length(24)}/{ratingId:int}")]
+        public JsonResult UpdateRating(string id, int ratingId)
+        {
+            var wineryIn = _wineryService.Get(id);
+
+            if (wineryIn == null) Response.StatusCode = StatusCodes.Status404NotFound;
+            var result = _wineryService.UpdateRating(id, ratingId);
+            Response.StatusCode = result == false ? StatusCodes.Status500InternalServerError : StatusCodes.Status200OK;
+
+            return new JsonResult(result);
+        }
+
+
         [HttpDelete("{id:length(24)}")]
         public JsonResult Delete(string id)
         {
