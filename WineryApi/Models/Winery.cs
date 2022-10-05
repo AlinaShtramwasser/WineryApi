@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using System.ComponentModel.DataAnnotations;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace WineryApi.Models
@@ -10,6 +11,7 @@ namespace WineryApi.Models
         public string Id { get; set; }
         //if the name was different on the json for example winery_name can use [BsonElement("winery_name")]
         public string Name { get; set; }
+        public string Notes { get; set; }
         public string Url { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
