@@ -41,3 +41,8 @@ C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net5.0\runtime
 C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net5.0\runtimes\osx\native\libmongocrypt.dylib
 C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net5.0\runtimes\win\native\mongocrypt.dll
 C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\obj\Debug\net5.0\refint\WineryApi.dll
+C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\obj\Debug\net5.0\staticwebassets\WineryApi.StaticWebAssets.Pack.cache
+C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\obj\Debug\net5.0\staticwebassets\msbuild.WineryApi.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\obj\Debug\net5.0\staticwebassets\msbuild.build.WineryApi.props
+C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\obj\Debug\net5.0\staticwebassets\msbuild.buildMultiTargeting.WineryApi.props
+C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\obj\Debug\net5.0\staticwebassets\msbuild.buildTransitive.WineryApi.props
