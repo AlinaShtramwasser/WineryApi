@@ -1,13 +1,22 @@
 {
   "version": 2,
-  "dgSpecHash": "PzoiWUQGYZY3aXhDGvQ8V69n/NxgQA0aUtLDuL75TlKePQiO907qTjsD2s5/A2XnM2RiTJgf/T7E4mxiBEkdlg==",
+  "dgSpecHash": "LbjyTd8CfsY5V51/G3/5C3qbQc6aKooXyb2mycZd/NjKqGUB9yALT80H9z0eTmslS2273FyKa8r1Fis6JUs2DA==",
   "success": true,
   "projectFilePath": "C:\\Users\\ShtramwasserA\\source\\repos\\WineryApi\\WineryApi\\WineryApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ShtramwasserA\\.nuget\\packages\\dnsclient\\1.4.0\\dnsclient.1.4.0.nupkg.sha512",
+    "C:\\Users\\ShtramwasserA\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.18\\microsoft.aspnetcore.authentication.jwtbearer.6.0.18.nupkg.sha512",
     "C:\\Users\\ShtramwasserA\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\5.0.13\\microsoft.aspnetcore.jsonpatch.5.0.13.nupkg.sha512",
     "C:\\Users\\ShtramwasserA\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\5.0.13\\microsoft.aspnetcore.mvc.newtonsoftjson.5.0.13.nupkg.sha512",
     "C:\\Users\\ShtramwasserA\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\ShtramwasserA\\.nuget\\packages\\microsoft.identitymodel.abstractions\\6.31.0\\microsoft.identitymodel.abstractions.6.31.0.nupkg.sha512",
+    "C:\\Users\\ShtramwasserA\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\6.31.0\\microsoft.identitymodel.jsonwebtokens.6.31.0.nupkg.sha512",
+    "C:\\Users\\ShtramwasserA\\.nuget\\packages\\microsoft.identitymodel.logging\\6.31.0\\microsoft.identitymodel.logging.6.31.0.nupkg.sha512",
+    "C:\\Users\\ShtramwasserA\\.nuget\\packages\\microsoft.identitymodel.protocols\\6.10.0\\microsoft.identitymodel.protocols.6.10.0.nupkg.sha512",
+    "C:\\Users\\ShtramwasserA\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\6.10.0\\microsoft.identitymodel.protocols.openidconnect.6.10.0.nupkg.sha512",
+    "C:\\Users\\ShtramwasserA\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.31.0\\microsoft.identitymodel.tokens.6.31.0.nupkg.sha512",
+    "C:\\Users\\ShtramwasserA\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\ShtramwasserA\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\ShtramwasserA\\.nuget\\packages\\mongodb.bson\\2.14.1\\mongodb.bson.2.14.1.nupkg.sha512",
     "C:\\Users\\ShtramwasserA\\.nuget\\packages\\mongodb.driver\\2.14.1\\mongodb.driver.2.14.1.nupkg.sha512",
     "C:\\Users\\ShtramwasserA\\.nuget\\packages\\mongodb.driver.core\\2.14.1\\mongodb.driver.core.2.14.1.nupkg.sha512",
@@ -16,7 +25,13 @@
     "C:\\Users\\ShtramwasserA\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
     "C:\\Users\\ShtramwasserA\\.nuget\\packages\\sharpcompress\\0.30.1\\sharpcompress.0.30.1.nupkg.sha512",
     "C:\\Users\\ShtramwasserA\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
-    "C:\\Users\\ShtramwasserA\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
+    "C:\\Users\\ShtramwasserA\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.31.0\\system.identitymodel.tokens.jwt.6.31.0.nupkg.sha512",
+    "C:\\Users\\ShtramwasserA\\.nuget\\packages\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",
+    "C:\\Users\\ShtramwasserA\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512",
+    "C:\\Users\\ShtramwasserA\\.nuget\\packages\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512",
+    "C:\\Users\\ShtramwasserA\\.nuget\\packages\\system.text.encoding\\4.3.0\\system.text.encoding.4.3.0.nupkg.sha512",
+    "C:\\Users\\ShtramwasserA\\.nuget\\packages\\system.text.encodings.web\\4.7.2\\system.text.encodings.web.4.7.2.nupkg.sha512",
+    "C:\\Users\\ShtramwasserA\\.nuget\\packages\\system.text.json\\4.7.2\\system.text.json.4.7.2.nupkg.sha512"
   ],
   "logs": []
 }

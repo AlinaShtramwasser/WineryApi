@@ -33,6 +33,7 @@ namespace WineryApi
                 .AddNewtonsoftJson(options =>
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver());
             services.AddSingleton<WineryService>();
+            services.AddSingleton<UserService>();
             services.AddControllers();
         }
 
@@ -48,7 +49,8 @@ namespace WineryApi
             }
 
             app.UseRouting();
-
+            //Israel guy has this in his Program.cs in tutorial .Net 6 API Authentication With JWT etc
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

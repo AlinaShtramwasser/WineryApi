@@ -45,3 +45,11 @@ C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\obj\Debug\net6.0\refint\
 C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\obj\Debug\net6.0\WineryApi.pdb
 C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\obj\Debug\net6.0\WineryApi.genruntimeconfig.cache
 C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\obj\Debug\net6.0\ref\WineryApi.dll
+C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
