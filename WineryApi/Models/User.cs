@@ -14,9 +14,10 @@ namespace WineryApi.Models
         public string LastName { get; set; }
         [Required]
         public string UserName { get; set; }
-        [Required]
+        //Google validates the user and then the user gets added to the db - not saving password - but can register through postman
+        //[Required]
         public byte[] PasswordSalt { get; set; }
-        [Required]
+        //[Required]
         public byte[] PasswordHash {get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }

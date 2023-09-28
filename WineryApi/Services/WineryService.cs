@@ -8,11 +8,13 @@ namespace WineryApi.Services
     public class WineryService
     {
         private readonly IMongoCollection<Winery> _wineries;
+        private readonly IMongoCollection<User> _users;
 
         public WineryService(IConfiguration configuration)
         {
             MongoClient dbClient = new MongoClient(configuration.GetConnectionString("WineryAppConnection"));
             _wineries = dbClient.GetDatabase("winery").GetCollection<Winery>("wineries");
+            _users = dbClient.GetDatabase("winery").GetCollection<User>("users");
         }
 
         public List<Winery> Get() =>

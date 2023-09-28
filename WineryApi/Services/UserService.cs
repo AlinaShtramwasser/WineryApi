@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Google.Apis.Auth;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using WineryApi.Models;
@@ -14,13 +14,22 @@ namespace WineryApi.Services
     public class UserService
     {
         private readonly IMongoCollection<User> _users;
-        private IConfiguration _config;
+        private readonly IConfiguration _config;
 
-        public UserService(IConfiguration configuration, IConfiguration config)
+        public UserService(IConfiguration configuration)
         {
-            _config = config;
+            _config = configuration;
             MongoClient dbClient = new MongoClient(configuration.GetConnectionString("WineryAppConnection"));
             _users = dbClient.GetDatabase("winery").GetCollection<User>("users");
+        }
+
+        public GoogleJsonWebSignature.ValidationSettings GetSettings()
+        {
+            var settings = new GoogleJsonWebSignature.ValidationSettings()
+            {
+                Audience = new List<string> { _config.GetSection("ApplicationSettings").GetValue<string>("GoogleClientId") }
+            };
+            return settings;
         }
 
         public string GetToken(string userName)
@@ -38,6 +47,23 @@ namespace WineryApi.Services
             var encryptortoken = tokenHandler.WriteToken(token);
             return encryptortoken;
         }
+
+        public dynamic JwtGenerator(string userName)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var secret = _config.GetSection("ApplicationSettings").GetValue<string>("Secret");
+            var key = Encoding.ASCII.GetBytes(secret);
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
+                Subject = new ClaimsIdentity(new[] { new Claim("id", userName) }),
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var encrypterToken = tokenHandler.WriteToken(token);
+            return new {token = encrypterToken, username = userName };
+        }
+      
         public List<User> Get() =>
             _users.Find(user => true).ToList();
         public User Get(string username) =>

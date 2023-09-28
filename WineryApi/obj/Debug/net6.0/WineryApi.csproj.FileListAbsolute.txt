@@ -53,3 +53,7 @@ C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net6.0\System.
 C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
 C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net6.0\Google.Apis.dll
+C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net6.0\Google.Apis.Auth.PlatformServices.dll
+C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net6.0\Google.Apis.Auth.dll
+C:\Users\ShtramwasserA\source\repos\WineryApi\WineryApi\bin\Debug\net6.0\Google.Apis.Core.dll

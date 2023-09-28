@@ -2,6 +2,7 @@
 
 namespace WineryApi.Models
 {
+    //to add users through postman
     public class Register
     {
         [Required]
