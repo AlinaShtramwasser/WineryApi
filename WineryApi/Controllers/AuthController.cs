@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 using WineryApi.Models;
 using WineryApi.Services;
 
@@ -55,7 +54,7 @@ public class AuthController : Controller
 
         var match = CheckPassword(model.Password, user);
         if (!match) return BadRequest("Username or Password was invalid");
-        dynamic token = GetToken(user);
+        var token = GetToken(user);
         //return Ok(_userService.JwtGenerator(user.UserName));
         return Ok(token);
     }
@@ -71,16 +70,22 @@ public class AuthController : Controller
         //https://learn.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-6.0
         //https://developers.google.com/identity/protocols/oauth2
         //https://www.yogihosting.com/aspnet-core-identity-login-with-google/
-        HttpContext.Response.Cookies.Append("X-Access-Token", token.token,
-            new CookieOptions
-            {
-                Expires = DateTime.Now.AddDays(1),
-                HttpOnly = true,
-                Secure = true,
-                IsEssential = true,
-                SameSite = SameSiteMode.None
-            });
-        return token;
+        SetJwt(token);
+        return new {token, username = user.UserName};
+    }
+
+    private void SetJwt(dynamic token)
+    {
+        //HttpContext.Response.Cookies.Append("X-Access-Token", token.token,
+        //    new CookieOptions
+        //    {
+        //        Expires = DateTime.Now.AddDays(1),
+        //        HttpOnly = true,
+        //        Secure = true,
+        //        IsEssential = true,
+        //        SameSite = SameSiteMode.None
+        //    });
+        Response.Cookies.Append("X-Access-Token", token.token, new CookieOptions { HttpOnly = true, SameSite = SameSiteMode.None });
     }
 
     /*at about min 29:16 of the How to Add Google Sign In With Angular Correctly - https://www.youtube.com/watch?v=G4BBNq1tgwE
@@ -90,48 +95,23 @@ public class AuthController : Controller
     {
         //need to be off the vpn when the app is started, on the network to get the payload, then come of to query mongo
         var settings = _userService.GetSettings();
+        //on the network to get the payload
         var payload = await GoogleJsonWebSignature.ValidateAsync(credential, settings);
-        var user = _userService.Get(payload.Email); //check emailverified also
-        if (payload.EmailVerified)
+        //off the network to query mongo
+        var user = _userService.Get(payload.Email);
+        //check emailverified also
+        if (!payload.EmailVerified) return BadRequest();
+        if (user != null) return Ok(GetToken(user));
+
+        var newUser = new User
         {
-            dynamic token;
-            if (user != null)
-            {
-                //Response.Cookies.Append("user", user.UserName, new CookieOptions
-                //{
-                //    Secure = true,
-                //    HttpOnly = true,
-                //    SameSite = SameSiteMode.None
-                //});
-                token = GetToken(user);
-                return Ok(token);
-            }
-
-            var newUser = new User
-            {
-                UserName = payload.Email,
-                FirstName = payload.GivenName,
-                LastName = payload.FamilyName,
-                Email = payload.Email
-            };
-            _userService.Create(newUser);
-            //Response.Cookies.Append("user", newUser.UserName, new CookieOptions
-            //{
-            //    Secure = true,
-            //    HttpOnly = true,
-            //    SameSite = SameSiteMode.None
-            //});
-            token = GetToken(newUser);
-            return Ok(token);
-            //return Ok(/*_userService.JwtGenerator(newUser.UserName)*/);
-        }
-
-        return BadRequest();
-    }
-    public void SetJwt(string encrypterToken)
-    {
-        
-        
+            UserName = payload.Email,
+            FirstName = payload.GivenName,
+            LastName = payload.FamilyName,
+            Email = payload.Email
+        };
+        _userService.Create(newUser);
+        return Ok(GetToken(newUser));
     }
 
     private bool CheckPassword(string password, User user)

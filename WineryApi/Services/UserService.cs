@@ -32,22 +32,6 @@ namespace WineryApi.Services
             return settings;
         }
 
-        public string GetToken(string userName)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var secret = _config.GetSection("ApplicationSettings").GetValue<string>("Secret");
-            var key = Encoding.ASCII.GetBytes(secret);
-            var tokenDescriptor = new SecurityTokenDescriptor()
-            {
-                Subject = new ClaimsIdentity(new [] {new Claim("id", userName)}),
-                Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var encryptortoken = tokenHandler.WriteToken(token);
-            return encryptortoken;
-        }
-
         public dynamic JwtGenerator(string userName)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -60,8 +44,8 @@ namespace WineryApi.Services
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            var encrypterToken = tokenHandler.WriteToken(token);
-            return new {token = encrypterToken, username = userName };
+            var encryptedToken = tokenHandler.WriteToken(token);
+            return new {token = encryptedToken, username = userName };
         }
       
         public List<User> Get() =>
