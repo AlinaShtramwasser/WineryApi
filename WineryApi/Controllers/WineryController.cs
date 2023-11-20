@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WineryApi.Models;
 using WineryApi.Services;
 
 namespace WineryApi.Controllers
 {
+     [Authorize]
     //https://www.restapitutorial.com/lessons/httpmethods.html
     [Route("api/[controller]")]
     [ApiController]
@@ -17,10 +19,12 @@ namespace WineryApi.Controllers
             _wineryService = wineryService;
         }
 
+
         //returns status code 200 no matter what and a list
         [HttpGet]
         public IActionResult Get()
         {
+            //var cookie = Request.Cookies["user"];
             var wineries = _wineryService.Get();
             Response.StatusCode = StatusCodes.Status200OK;
             return new JsonResult(wineries);
