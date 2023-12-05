@@ -29,15 +29,15 @@ public class Program
          builder.Services.AddSingleton<WineryService>();
          builder.Services.AddSingleton<UserService>();
 
-        //authentication
-         builder.Services.AddAuthentication(x =>
+        //authentication - when debugging on net can use: https://jwt.io/ to see whats in the token
+        builder.Services.AddAuthentication(x =>
          {
              x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
              x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-         }).AddCookie(x =>
-         {
-             x.Cookie.Name = "token";
-
+             //}).AddCookie(x =>
+             //{
+             //    x.Cookie.Name = "token";
+             //
          }).AddJwtBearer(x =>
          {
              x.RequireHttpsMetadata = false;
@@ -49,14 +49,14 @@ public class Program
                  ValidateIssuer = false,
                  ValidateAudience = false
              };
-             x.Events = new JwtBearerEvents
-             {
-                 OnMessageReceived = context =>
-                 {
-                     context.Token = context.Request.Cookies["X-Access-Token"];
-                     return Task.CompletedTask;
-                 }
-             };
+             //x.Events = new JwtBearerEvents
+             //{
+             //    OnMessageReceived = context =>
+             //    {
+             //        context.Token = context.Request.Cookies["X-Access-Token"];
+             //        return Task.CompletedTask;
+             //    }
+             //};
 
          });
 
