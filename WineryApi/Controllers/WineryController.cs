@@ -6,7 +6,7 @@ using WineryApi.Services;
 
 namespace WineryApi.Controllers
 {
-     [Authorize]
+    [Authorize]
     //https://www.restapitutorial.com/lessons/httpmethods.html
     [Route("api/[controller]")]
     [ApiController]

@@ -55,7 +55,6 @@ public class AuthController : Controller
         var match = CheckPassword(model.Password, user);
         if (!match) return BadRequest("Username or Password was invalid");
         var token = GetToken(user);
-        //return Ok(_userService.JwtGenerator(user.UserName));
         return Ok(token);
     }
 
@@ -70,23 +69,24 @@ public class AuthController : Controller
         //https://learn.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-6.0
         //https://developers.google.com/identity/protocols/oauth2
         //https://www.yogihosting.com/aspnet-core-identity-login-with-google/
-        SetJwt(token);
-        return new {token, username = user.UserName};
+        //SetJwt(token);
+        //return token;
+        return new { token };
     }
 
-    private void SetJwt(dynamic token)
-    {
-        //HttpContext.Response.Cookies.Append("X-Access-Token", token.token,
-        //    new CookieOptions
-        //    {
-        //        Expires = DateTime.Now.AddDays(1),
-        //        HttpOnly = true,
-        //        Secure = true,
-        //        IsEssential = true,
-        //        SameSite = SameSiteMode.None
-        //    });
-        Response.Cookies.Append("X-Access-Token", token.token, new CookieOptions { HttpOnly = true, SameSite = SameSiteMode.None });
-    }
+    //private void SetJwt(dynamic token)
+    //{
+    //    //HttpContext.Response.Cookies.Append("X-Access-Token", token.token,
+    //    //    new CookieOptions
+    //    //    {
+    //    //        Expires = DateTime.Now.AddDays(1),
+    //    //        HttpOnly = true,
+    //    //        Secure = true,
+    //    //        IsEssential = true,
+    //    //        SameSite = SameSiteMode.None
+    //    //    });
+    //    Response.Cookies.Append("X-Access-Token", token, new CookieOptions { HttpOnly = true, SameSite = SameSiteMode.None });
+    //}
 
     /*at about min 29:16 of the How to Add Google Sign In With Angular Correctly - https://www.youtube.com/watch?v=G4BBNq1tgwE
     https://www.youtube.com/watch?v=semPMqxziTQ for the link to github etc*/

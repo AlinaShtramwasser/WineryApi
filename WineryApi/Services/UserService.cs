@@ -45,7 +45,7 @@ namespace WineryApi.Services
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var encryptedToken = tokenHandler.WriteToken(token);
-            return new {token = encryptedToken, username = userName };
+            return new {token = encryptedToken };
         }
       
         public List<User> Get() =>
