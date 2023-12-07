@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using WineryApi.Services;
@@ -26,6 +27,9 @@ public class Program
                  options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
              .AddNewtonsoftJson(options =>
                  options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+
+        //for swagger -> https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddSwaggerGen();
         builder.Services.AddSingleton<WineryForUserService>();
         builder.Services.AddSingleton<UserService>();
         builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -63,6 +67,13 @@ public class Program
             });
         });
         var app = builder.Build();
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+            //go to http://localhost:12895/swagger/index.html or whatever port
+        }
+
         app.UseCors("CorsPolicy");
         app.UseHttpsRedirection();
         app.UseRouting();
