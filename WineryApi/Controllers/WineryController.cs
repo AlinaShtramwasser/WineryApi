@@ -12,9 +12,9 @@ namespace WineryApi.Controllers
     [ApiController]
     public class WineryController : ControllerBase
     {
-        private readonly WineryService _wineryService;
+        private readonly WineryForUserService _wineryService;
 
-        public WineryController(WineryService wineryService)
+        public WineryController(WineryForUserService wineryService)
         {
             _wineryService = wineryService;
         }
@@ -24,7 +24,6 @@ namespace WineryApi.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            //var cookie = Request.Cookies["user"];
             var wineries = _wineryService.Get();
             Response.StatusCode = StatusCodes.Status200OK;
             return new JsonResult(wineries);

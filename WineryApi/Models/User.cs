@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -21,7 +22,7 @@ namespace WineryApi.Models
         public byte[] PasswordHash {get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public Winery[] Wineries { get; set; }
+        public List<string> Wineries { get; set; }
         public Address UserAddress { get; set; }
     }
 }

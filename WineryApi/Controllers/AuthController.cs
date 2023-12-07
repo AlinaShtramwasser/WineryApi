@@ -4,7 +4,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Google.Apis.Auth;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WineryApi.Models;
 using WineryApi.Services;
@@ -55,6 +54,7 @@ public class AuthController : Controller
         var match = CheckPassword(model.Password, user);
         if (!match) return BadRequest("Username or Password was invalid");
         var token = GetToken(user);
+        //_httpContextAccessor.HttpContext.Response.Cookies.Append("UserId", user.Id, new CookieOptions { HttpOnly = true, SameSite = SameSiteMode.None });
         return Ok(token);
     }
 
@@ -62,15 +62,11 @@ public class AuthController : Controller
     {
         //get the token
         var token = _userService.JwtGenerator(user.UserName);
-        //the token should be stored with a HttpOnly cookie with the request
-        //going to put user details in session rather than using identity etc which would be better - just proof of concept
         //https://stackoverflow.com/questions/72561109/how-to-set-cookie-in-the-browser-using-aspnet-core-6-web-api
         //https://learn.microsoft.com/en-us/aspnet/core/fundamentals/app-state?view=aspnetcore-6.0
         //https://learn.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-6.0
         //https://developers.google.com/identity/protocols/oauth2
         //https://www.yogihosting.com/aspnet-core-identity-login-with-google/
-        //SetJwt(token);
-        //return token;
         return new { token };
     }
 

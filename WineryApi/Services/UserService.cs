@@ -22,7 +22,6 @@ namespace WineryApi.Services
             MongoClient dbClient = new MongoClient(configuration.GetConnectionString("WineryAppConnection"));
             _users = dbClient.GetDatabase("winery").GetCollection<User>("users");
         }
-
         public GoogleJsonWebSignature.ValidationSettings GetSettings()
         {
             var settings = new GoogleJsonWebSignature.ValidationSettings()
@@ -45,19 +44,20 @@ namespace WineryApi.Services
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var encryptedToken = tokenHandler.WriteToken(token);
-            return new {token = encryptedToken };
+            return new { token = encryptedToken };
         }
-      
+
         public List<User> Get() =>
             _users.Find(user => true).ToList();
         public User Get(string username) =>
-            _users.Find<User>(user => user.UserName == username).FirstOrDefault();
+            _users.Find(user => user.UserName == username).FirstOrDefault();
 
         public bool Create(User user)
         {
             //https://stackoverflow.com/questions/30102651/mongodb-server-v-2-6-7-with-c-sharp-driver-2-0-how-to-get-the-result-from-ins
             try
             {
+                user.Wineries = new List<string>();
                 _users.InsertOneAsync(user).GetAwaiter().GetResult();
             }
             catch
