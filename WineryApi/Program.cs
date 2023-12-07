@@ -1,7 +1,7 @@
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
@@ -20,24 +20,21 @@ public class Program
     {
         //creates the host
         var builder = WebApplication.CreateBuilder(args);
-         var configuration = builder.Configuration;
-         builder.Services.AddControllers();
+        var configuration = builder.Configuration;
+        builder.Services.AddControllers();
         builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
                  options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
              .AddNewtonsoftJson(options =>
                  options.SerializerSettings.ContractResolver = new DefaultContractResolver());
-         builder.Services.AddSingleton<WineryService>();
-         builder.Services.AddSingleton<UserService>();
+        builder.Services.AddSingleton<WineryForUserService>();
+        builder.Services.AddSingleton<UserService>();
+        builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         //authentication - when debugging on net can use: https://jwt.io/ to see whats in the token
         builder.Services.AddAuthentication(x =>
          {
              x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
              x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-             //}).AddCookie(x =>
-             //{
-             //    x.Cookie.Name = "token";
-             //
          }).AddJwtBearer(x =>
          {
              x.RequireHttpsMetadata = false;
@@ -49,15 +46,6 @@ public class Program
                  ValidateIssuer = false,
                  ValidateAudience = false
              };
-             //x.Events = new JwtBearerEvents
-             //{
-             //    OnMessageReceived = context =>
-             //    {
-             //        context.Token = context.Request.Cookies["X-Access-Token"];
-             //        return Task.CompletedTask;
-             //    }
-             //};
-
          });
 
 
@@ -87,19 +75,3 @@ public class Program
         app.Run();
     }
 }
-/*
- *  public string GetCookieString(string key, HttpRequest request)
-        {
-            var cookie = request.Cookies.Get("SYNCBASE_" + key);
-            return cookie != null ? cookie.Value : string.Empty;
-        }
-
-        public void PutCookieString(string key, string value, HttpResponse response, DateTime expireDate)
-        {
-            response.Cookies.Add(new HttpCookie("SYNCBASE_" + key, value)
-            {
-                Expires = expireDate
-            });
-        }
-   context.Response.Cookies.Clear();
- */
