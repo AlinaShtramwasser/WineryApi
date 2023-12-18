@@ -1,27 +1,27 @@
-﻿using System;
+﻿using Google.Apis.Auth;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Google.Apis.Auth;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using MongoDB.Driver;
+using WineryApi.Data.Interfaces;
 using WineryApi.Models;
 
 namespace WineryApi.Services
 {
     public class UserService
     {
-        private readonly IMongoCollection<User> _users;
         private readonly IConfiguration _config;
+        private readonly IUserRepository _userRepository;
 
-        public UserService(IConfiguration configuration)
+        public UserService(IConfiguration configuration, IUserRepository userRepository)
         {
+            _userRepository = userRepository;
             _config = configuration;
-            MongoClient dbClient = new MongoClient(configuration.GetConnectionString("WineryAppConnection"));
-            _users = dbClient.GetDatabase("winery").GetCollection<User>("users");
         }
+
         public GoogleJsonWebSignature.ValidationSettings GetSettings()
         {
             var settings = new GoogleJsonWebSignature.ValidationSettings()
@@ -47,10 +47,9 @@ namespace WineryApi.Services
             return new { token = encryptedToken };
         }
 
-        public List<User> Get() =>
-            _users.Find(user => true).ToList();
-        public User Get(string username) =>
-            _users.Find(user => user.UserName == username).FirstOrDefault();
+        public List<User> Get() => _userRepository.Get();
+
+        public User Get(string username) => _userRepository.GetUserByName(username);
 
         public bool Create(User user)
         {
@@ -58,7 +57,7 @@ namespace WineryApi.Services
             try
             {
                 user.Wineries = new List<string>();
-                _users.InsertOneAsync(user).GetAwaiter().GetResult();
+                _userRepository.Add(user);
             }
             catch
             {

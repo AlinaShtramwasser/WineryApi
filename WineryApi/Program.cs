@@ -1,4 +1,3 @@
-using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -6,6 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
+using System.Text;
+using WineryApi.Data.Interfaces;
+using WineryApi.Data.Repositories;
 using WineryApi.Services;
 
 namespace WineryApi;
@@ -33,6 +35,10 @@ public class Program
         builder.Services.AddSingleton<WineryForUserService>();
         builder.Services.AddSingleton<UserService>();
         builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+        //for the repositories -> registering so that they can be injected
+        builder.Services.AddSingleton<IUserRepository, UserRepository>();
+        builder.Services.AddSingleton<IWineryRepository, WineryRepository>();
 
         //authentication - when debugging on net can use: https://jwt.io/ to see whats in the token
         builder.Services.AddAuthentication(x =>
