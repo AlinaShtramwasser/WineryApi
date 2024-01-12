@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WineryApi.Models
 {
@@ -19,7 +19,7 @@ namespace WineryApi.Models
         //[Required]
         public byte[] PasswordSalt { get; set; }
         //[Required]
-        public byte[] PasswordHash {get; set; }
+        public byte[] PasswordHash { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
         public List<string> Wineries { get; set; }

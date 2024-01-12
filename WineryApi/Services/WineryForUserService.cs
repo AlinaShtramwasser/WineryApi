@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
+using System.Collections.Generic;
+using System.Linq;
+using WineryApi.Data.Interfaces;
 using WineryApi.Models;
 
 namespace WineryApi.Services
@@ -13,20 +14,18 @@ namespace WineryApi.Services
      * choose re: rating or notes with other users*/
     public class WineryForUserService
     {
-        private readonly IMongoCollection<Winery> _wineries;
-        private readonly IMongoCollection<User> _users;
         private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public WineryForUserService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        private readonly IUserRepository _userRepository;
+        private readonly IWineryRepository _wineryRepository;
+        public WineryForUserService(IConfiguration configuration, IUserRepository userRepository, IHttpContextAccessor httpContextAccessor)
         {
-            MongoClient dbClient = new MongoClient(configuration.GetConnectionString("WineryAppConnection"));
-            _wineries = dbClient.GetDatabase("winery").GetCollection<Winery>("wineries");
-            _users = dbClient.GetDatabase("winery").GetCollection<User>("users");
+            _userRepository = userRepository;
             _httpContextAccessor = httpContextAccessor;
         }
+
         public string GetCurrentUserId()
         {
-           return _httpContextAccessor.HttpContext.User.FindFirst("id").Value;
+            return _httpContextAccessor.HttpContext.User.FindFirst("id").Value;
         }
 
         public List<Winery> Get()
@@ -35,7 +34,7 @@ namespace WineryApi.Services
             if (currentUser != null && currentUser.Wineries != null)
             {
                 List<string> wineryIds = currentUser.Wineries.ToList();
-                List<Winery> allWineries = _wineries.Find(winery => true).ToList();
+                List<Winery> allWineries = _wineryRepository.GetWineries();
                 List<Winery> usersWinries = new List<Winery>();
                 foreach (var winery in allWineries)
                 {
@@ -50,62 +49,49 @@ namespace WineryApi.Services
 
         private User GetCurrentUser()
         {
-            return _users.Find(users => users.UserName == GetCurrentUserId()).FirstOrDefault();
+            return _userRepository.GetUserById(GetCurrentUserId());
         }
 
-        public Winery Get(string id) =>
-            _wineries.Find<Winery>(winery => winery.Id == id).FirstOrDefault();
+        public Winery Get(string id) => _wineryRepository.GetWineryById(id);
 
         public bool Create(Winery winery)
         {
             //https://stackoverflow.com/questions/30102651/mongodb-server-v-2-6-7-with-c-sharp-driver-2-0-how-to-get-the-result-from-ins
             try
             {
-                _wineries.InsertOneAsync(winery).GetAwaiter().GetResult();
+                var success = _wineryRepository.Add(ref winery);
+                if (!success)
+                    return false;
+
                 var id = winery.Id;
                 User currentUser = GetCurrentUser();
-                //not strictly necessary since I'd initialized this when creating a user, but doing it just in case
                 currentUser.Wineries ??= new List<string>();
                 currentUser.Wineries.Add(winery.Id);
-                var result = _users.ReplaceOne(user => user.Id == currentUser.Id, currentUser);
-                return result.ModifiedCount > 0;
+                return _userRepository.Update(currentUser);
             }
             catch
             {
                 return false;
             }
-            //catch (MongoWriteException mwx)
-            //{
-            //    //https://stackoverflow.com/questions/63671280/is-there-a-complete-list-of-mongodb-error-codes
-            //    //https://jira.mongodb.org/browse/DOCS-10757
-            //    //WriteError.Code to get a particular exception -- common ones:
-            //    //112 write conflict(when a transaction is failed)
-            //    //11000 Duplicate Key(when a unique constraint index is violated)
-            //    //211 or 11600 When mongo is down or i have a bad config
-            //}
+        }
+
+        public bool UpdateRating(string id, int rating)
+        {
+            try
+            {
+                return _wineryRepository.UpdateRating(id, rating);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public bool Update(string id, Winery wineryIn)
         {
             try
             {
-                var result = _wineries.ReplaceOne(winery => winery.Id == id, wineryIn);
-                return result.ModifiedCount > 0;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-
-        public bool UpdateRating(string id, int rating)
-        {
-            try
-            {
-                var update = Builders<Winery>.Update.Set("Rating", rating);
-                var result = _wineries.UpdateOne(winery => winery.Id == id, update);
-                return result.ModifiedCount > 0;
+                return _wineryRepository.UpdateWinery(id, wineryIn);
             }
             catch
             {
@@ -123,9 +109,9 @@ namespace WineryApi.Services
             {
                 User currentUser = GetCurrentUser();
                 currentUser.Wineries.Remove(id);
-                var result1 = _users.ReplaceOne(user => user.Id == currentUser.Id, currentUser);
-                var result2 = _wineries.DeleteOne(winery => winery.Id == id);
-                return result2.DeletedCount > 0 && result1.ModifiedCount > 0; 
+                var updateUserWineryResult = _userRepository.Update(currentUser);
+                var updateWineriesResult = _wineryRepository.Delete(id);
+                return updateUserWineryResult && updateWineriesResult;
             }
             catch
             {
