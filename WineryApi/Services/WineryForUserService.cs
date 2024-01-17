@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +16,11 @@ namespace WineryApi.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUserRepository _userRepository;
         private readonly IWineryRepository _wineryRepository;
-        public WineryForUserService(IConfiguration configuration, IUserRepository userRepository, IHttpContextAccessor httpContextAccessor)
+        public WineryForUserService(IWineryRepository wineryRepository, IUserRepository userRepository, IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = userRepository;
             _httpContextAccessor = httpContextAccessor;
+            _wineryRepository = wineryRepository;
         }
 
         public string GetCurrentUserId()
